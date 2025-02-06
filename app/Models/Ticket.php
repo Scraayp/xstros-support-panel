@@ -11,7 +11,7 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'title', 'description', 'status'
+        'user_id', 'title', 'description', 'status', 'closed_at', 'closer_id'
     ];
 
     public function user()
@@ -22,5 +22,10 @@ class Ticket extends Model
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    public function closer()
+    {
+        return $this->belongsTo(User::class, 'closer_id');
     }
 }

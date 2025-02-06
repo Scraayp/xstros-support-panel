@@ -65,6 +65,15 @@
                                 <p class="mt-2 text-gray-800 dark:text-gray-200">{{ $reply->message }}</p>
                             </div>
                         @endforeach
+                        @if($ticket->status === "closed")
+                                <div class="border rounded-lg p-4 border-red-600 dark:border-red-600">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-medium text-gray-900 dark:text-gray-200"> <span class="bg-red-600 text-white-800 px-2 py-1 rounded">System</span></span>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">{{ $ticket->closed_at}}</span>
+                                    </div>
+                                    <p class="mt-2 text-gray-800 dark:text-gray-200">Ticket has been closed by: {{$ticket->closer->name}} | <span class="@if($ticket->closer->role === 'Admin') bg-blue-400 text-white @elseif($ticket->closer->role === 'Staff') bg-green-200 text-green-800 @else bg-gray-200 text-gray-800 @endif px-2 py-1 rounded">{{$ticket->closer->role}}</span></p>
+                                </div>
+                        @endif
                     </div>
                 </div>
             </div>

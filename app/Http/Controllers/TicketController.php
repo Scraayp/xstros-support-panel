@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ReplyNotification;
 use App\Models\Reply;
 use App\Models\Ticket;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,6 +106,8 @@ class TicketController extends Controller
         }
         $ticket->update([
             'status' => 'closed',
+            'closed_at' => Carbon::now(),
+            'closer_id' => Auth::id(),
         ]);
         return redirect()->route('dashboard');
     }
