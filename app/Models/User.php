@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_staff'
     ];
 
     /**
@@ -31,7 +33,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'updated_at',
     ];
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
 
     /**
      * Get the attributes that should be cast.

@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <img src="/no-bg-logo.png" alt="Logo" class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
@@ -15,6 +15,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(Auth::user()->role == "Admin")
+                    <x-nav-link :href="route('user.list')" :active="request()->routeIs('user.list')">
+                        {{ __('Users') }}
+
+                    </x-nav-link>
+                        @endif
                 </div>
             </div>
 
@@ -70,6 +76,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->role == "Admin")
+                <x-responsive-nav-link :href="route('user.list')" :active="request()->routeIs('user.list')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+            @endif
+
         </div>
 
         <!-- Responsive Settings Options -->

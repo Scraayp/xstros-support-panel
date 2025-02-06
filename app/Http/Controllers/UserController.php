@@ -15,6 +15,10 @@ class UserController extends Controller
 
     public function view(): View
     {
+
+        if (Auth::user()->role !== 'Admin') {
+            abort(403);
+        }
         $users = User::all();
         return view('user.view', ['users' => $users]);
     }
@@ -50,19 +54,13 @@ class UserController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        if(Auth::user()->role !== "Admin")
+        {
+            abort(403);
+        }
+        $toDeleteUser = User::find($request->id);
+        $toDeleteUser->delete();
 
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return Redirect::route('user.list')->with('status', 'user-deleted');
     }
 }
