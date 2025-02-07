@@ -39,8 +39,8 @@
 
                     <!-- Name Field -->
                     <div class="mb-4">
-                            <label for="name" class="@error('name') text-red-700 dark:text-red-500 @else text-white @enderror block mb-2 text-sm font-medium ">Name</label>
-                            <input type="text" id="name" name="name" class="@error('name') bg-red-50 border-red-500 text-red-900 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 focus:ring-red-500 @else text-white focus:ring-blue-400 @enderror border text-sm rounded-lg  dark:bg-gray-700  block w-full p-2.5 " value="{{$user->name}}">
+                            <label for="name" class="@error('name') text-red-700 dark:text-red-500 @else text-black dark:text-white @enderror block mb-2 text-sm font-medium ">Name</label>
+                            <input type="text" id="name" name="name" class="@error('name') bg-red-50 border-red-500 text-red-900 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 focus:ring-red-500 @else text-black dark:text-white focus:ring-blue-400 @enderror border text-sm rounded-lg  dark:bg-gray-700  block w-full p-2.5 " value="{{$user->name}}">
                             @error('name')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> {{ $message }}</p>
                             @enderror
@@ -48,8 +48,8 @@
 
                     <!-- Email Field -->
                     <div class="mb-4">
-                        <label for="email" class="@error('email') text-red-700 dark:text-red-500 @else text-white @enderror block mb-2 text-sm font-medium ">Email</label>
-                        <input type="text" id="email" name="email" class="@error('email') bg-red-50 border-red-500 text-red-900 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 focus:ring-red-500 @else  text-white focus:ring-blue-400 @enderror border text-sm rounded-lg  dark:bg-gray-700  block w-full p-2.5 " value="{{$user->email}}">
+                        <label for="email" class="@error('email') text-red-700 dark:text-red-500 @else text-black dark:text-white @enderror block mb-2 text-sm font-medium ">Email</label>
+                        <input type="text" id="email" name="email" class="@error('email') bg-red-50 border-red-500 text-red-900 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500 focus:ring-red-500 @else text-black dark:text-white focus:ring-blue-400 @enderror border text-sm rounded-lg  dark:bg-gray-700  block w-full p-2.5 " value="{{$user->email}}">
                         @error('email')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> {{ $message }}</p>
                         @enderror
@@ -57,8 +57,8 @@
 
                     <!-- Password Field (only for change) -->
                     <div class="mb-4">
-                        <label for="password" class="@error('password') text-red-700 dark:text-red-500 @else text-white @enderror block mb-2 text-sm font-medium ">Password</label>
-                        <input type="text" id="password" name="password" class="@error('password') text-white bg-red-50 border-red-500 focus:border-red-500  dark:placeholder-red-500 dark:border-red-500 focus:ring-red-500 @else  text-white focus:ring-blue-400 @enderror border text-sm rounded-lg  dark:bg-gray-700  block w-full p-2.5 " placeholder="Leave blank to keep the current password">
+                        <label for="password" class="@error('password') text-red-700 dark:text-red-500 @else text-black dark:text-white @enderror block mb-2 text-sm font-medium ">Password</label>
+                        <input type="text" id="password" name="password" class="@error('password') text-black dark:text-white bg-red-50 border-red-500 focus:border-red-500  dark:placeholder-red-500 dark:border-red-500 focus:ring-red-500 @else text-black dark:text-white focus:ring-blue-400 @enderror border text-sm rounded-lg  dark:bg-gray-700  block w-full p-2.5 " placeholder="Leave blank to keep the current password">
                         @error('password')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> {{ $message }}</p>
                         @enderror

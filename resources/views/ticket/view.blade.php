@@ -51,11 +51,11 @@
                         @foreach($ticket->replies as $reply)
                             <div class="border rounded-lg p-4
                                 @if($reply->user->role == 'Admin')
-                                    bg-blue-900 dark:bg-blue-900
+                                    bg-transparent border-blue-500 dark:border-white dark:bg-blue-900
                                 @elseif($reply->user->role == 'Staff')
-                                    bg-green-900 dark:bg-green-900
+                                    bg-transparent border-green-500 dark:border-white  dark:bg-green-900
                                 @else
-                                    bg-gray-700 dark:bg-gray-800
+                                    bg-transparent border-black-500 dark:border-white dark:bg-gray-800
                                 @endif
                             ">
                                 <div class="flex items-center justify-between">
