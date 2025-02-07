@@ -15,7 +15,7 @@
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
             </div>
-            <div class="ml-3 text-sm font-medium">User has been updated successfully.</div>
+            <div class="ml-3 text-sm font-medium">User has been updated.</div>
             <button onclick="document.getElementById('toast-success').style.display = 'none';"
                     class="ml-auto text-white hover:text-gray-300">
                 ✖
@@ -25,6 +25,30 @@
             setTimeout(() => {
                 document.getElementById('toast-success').style.opacity = '0';
                 setTimeout(() => document.getElementById('toast-success').remove(), 300);
+            }, 4000);
+        </script>
+    @endif
+
+    <!-- Toast Notification -->
+    @if(session('status') === 'user-created')
+        <div id="toast-created"
+             class="fixed bottom-6 right-6 flex items-center w-full max-w-sm p-4 text-gray-100 bg-green-500 rounded-xl shadow-lg z-50 transition-all duration-300"
+             role="alert">
+            <div class="flex items-center justify-center w-8 h-8 text-white bg-green-700 rounded-full">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+            </div>
+            <div class="ml-3 text-sm font-medium">User has been created.</div>
+            <button onclick="document.getElementById('toast-created').style.display = 'none';"
+                    class="ml-auto text-white hover:text-gray-300">
+                ✖
+            </button>
+        </div>
+        <script>
+            setTimeout(() => {
+                document.getElementById('toast-created').style.opacity = '0';
+                setTimeout(() => document.getElementById('toast-created').remove(), 300);
             }, 4000);
         </script>
     @endif

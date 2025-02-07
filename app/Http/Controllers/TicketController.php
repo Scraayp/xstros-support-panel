@@ -78,7 +78,7 @@ class TicketController extends Controller
 //        }
 
         // Redirect back to the ticket view page
-        return redirect()->route('ticket.view', $ticket);
+        return redirect()->route('ticket.view', $ticket)->with('status', 'reply-created');
     }
 
     public function create(TicketCreateRequest $request): RedirectResponse
@@ -103,7 +103,7 @@ class TicketController extends Controller
         ]);
 
         // Redirect to dashboard or ticket view page
-        return redirect()->route('dashboard');  // Change this route as needed
+        return redirect()->route('ticket.view', $ticket)->with('status', 'ticket-created');  // Change this route as needed
     }
 
     public  function close(Ticket $ticket): RedirectResponse
@@ -119,7 +119,7 @@ class TicketController extends Controller
 
         $ticket->user->notify(new CloseNotifcation($ticket));
 
-        return redirect()->route('dashboard');
+        return redirect()->route('ticket.list')->with('status', 'ticket-closed');
     }
 
 }

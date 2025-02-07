@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Carbon\Carbon;
@@ -25,17 +26,29 @@ class UserController extends Controller
         return view('user.view', ['users' => $users]);
     }
 
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request, User $user): View
+    public function new(): View
     {
         if (Auth::user()->role !== 'Admin') {
             abort(403);
         }
-        return view('user.edit', [
-            'user' => $user,
-        ]);
+        return view('user.new');
+    }
+
+    public function create(UserCreateRequest $request): RedirectResponse
+    {
+        // Only Admin users can update the profile.
+        if (Auth::user()->role !== 'Admin') {
+            abort(403);
+        }
+
+        // Get the validated data.
+        $data = $request->validated();
+
+        // Create the user
+        $user = User::create($data);
+
+        // Return redirect to the user edit page
+        return Redirect::route('user.edit', $user)->with('status', 'user-created');
     }
 
     /**
@@ -93,17 +106,37 @@ class UserController extends Controller
     }
 
     /**
+     * Display the user's profile form.
+     */
+    public function edit(Request $request, User $user): View
+    {
+        if (Auth::user()->role !== 'Admin') {
+            abort(403);
+        }
+        return view('user.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * Delete the user's account.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        if(Auth::user()->role !== "Admin")
-        {
+        if (Auth::user()->role !== "Admin") {
             abort(403);
         }
-        $toDeleteUser = User::find($request->id);
+
+        // Fix: Use 'user_id' instead of 'id'
+        $toDeleteUser = User::find($request->user_id);
+
+        if (!$toDeleteUser) {
+            return Redirect::route('user.list')->with('status', 'user-not-found');
+        }
+
         $toDeleteUser->delete();
 
         return Redirect::route('user.list')->with('status', 'user-deleted');
     }
+
 }

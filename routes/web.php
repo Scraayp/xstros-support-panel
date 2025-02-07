@@ -13,12 +13,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth', 'verified')->group(function () {
+    Route::get('/user/new', [\App\Http\Controllers\UserController::class, 'new'])->name('user.new');
+    Route::post('/user/create', [\App\Http\Controllers\UserController::class, 'create'])->name('user.create');
     Route::get('/user/list', [\App\Http\Controllers\UserController::class, 'view'])->middleware(['auth', 'verified'])->name('user.list');
     Route::get('/user/{user}', [\App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 
     Route::patch('/user/{user}', [\App\Http\Controllers\UserController::class, 'update'])->middleware(['throttle:2,5'])->name('user.update');
 
-    Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->middleware(['throttle:2,5'])->name('user.destroy');
+    Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
 });
 
 

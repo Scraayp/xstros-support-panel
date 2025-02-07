@@ -5,6 +5,29 @@
         </h2>
     </x-slot>
 
+    @if(session('status') === 'ticket-closed')
+        <div id="toast-success"
+             class="fixed bottom-6 right-6 flex items-center w-full max-w-sm p-4 text-gray-100 bg-red-500 rounded-xl shadow-lg z-50 transition-all duration-300"
+             role="alert">
+            <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                </svg>
+            </div>
+            <div class="ml-3 text-sm font-medium">Ticket has been closed.</div>
+            <button onclick="document.getElementById('toast-success').style.display = 'none';"
+                    class="ml-auto text-white hover:text-gray-300">
+                ✖
+            </button>
+        </div>
+        <script>
+            setTimeout(() => {
+                document.getElementById('toast-success').style.opacity = '0';
+                setTimeout(() => document.getElementById('toast-success').remove(), 300);
+            }, 4000);
+        </script>
+    @endif
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-900 shadow-lg rounded-xl p-6">
                 <div class="p-4 text-gray-900 dark:text-gray-100">
