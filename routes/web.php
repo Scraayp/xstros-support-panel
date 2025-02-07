@@ -16,20 +16,22 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/user/list', [\App\Http\Controllers\UserController::class, 'view'])->middleware(['auth', 'verified'])->name('user.list');
     Route::get('/user/{user}', [\App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 
-    Route::patch('/user/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+    Route::patch('/user/{user}', [\App\Http\Controllers\UserController::class, 'update'])->middleware(['throttle:2,5'])->name('user.update');
 
-    Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
+    Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->middleware(['throttle:2,5'])->name('user.destroy');
 });
 
 
 Route::middleware('auth', 'verified')->group(function () {
+    Route::get('/ticket/list', [\App\Http\Controllers\TicketController::class, 'list'])->name('ticket.list');
+
     Route::get('/ticket/new', [\App\Http\Controllers\TicketController::class, 'new'])->name('ticket.new');
-    Route::post('/ticket/new', [\App\Http\Controllers\TicketController::class, 'create'])->name('ticket.create');
+    Route::post('/ticket/new', [\App\Http\Controllers\TicketController::class, 'create'])->middleware(['throttle:2,5'])->name('ticket.create');
 
     Route::get('/ticket/{ticket}', [\App\Http\Controllers\TicketController::class, 'view'])->name('ticket.view');
-    Route::post('/ticket/{ticket}/reply', [\App\Http\Controllers\TicketController::class, 'reply'])->name('ticket.replies.store');
+    Route::post('/ticket/{ticket}/reply', [\App\Http\Controllers\TicketController::class, 'reply'])->middleware(['throttle:2,5'])->name('ticket.replies.store');
 
-    Route::delete('/ticket/{ticket}', [\App\Http\Controllers\TicketController::class, 'close'])->name('ticket.close');
+    Route::delete('/ticket/{ticket}', [\App\Http\Controllers\TicketController::class, 'close'])->middleware(['throttle:5,3'])->name('ticket.close');
 });
 
 Route::post('/notifications/mark-as-read', function () {

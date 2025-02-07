@@ -21,6 +21,17 @@ class TicketController extends Controller
         return view('ticket.new');
     }
 
+    public function list(): View
+    {
+        if(\Auth::user()->role === 'Admin' || \Auth::user()->role === 'Staff'){
+            return view('ticket.list', ['tickets' => Ticket::all()]);
+        }else
+        {
+            $tickets = Ticket::where('user_id', auth()->id())->get();
+            return view('ticket.list', ['tickets' => $tickets]);
+        }
+    }
+
     public function view(Ticket $ticket): View
     {
         if($ticket->user->id !== Auth::id() && Auth::user()->role !== "Admin" && Auth::user()->role !== "Staff") {
