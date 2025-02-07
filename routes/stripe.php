@@ -6,8 +6,8 @@ Route::middleware('auth', 'verified')->group(function () {
         $quantity = 1;
 
         return Auth::user()->checkout([$stripePriceId => $quantity], [
-            'success_url' => route('dashboard'),
-            'cancel_url' => route('user.list'),
+            'success_url' => route('payments.invoice.list'),
+            'cancel_url' => route('payments.invoice.list'),
         ]);
     })->name('payment.checkout');
 });

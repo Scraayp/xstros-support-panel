@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('payments.invoice.list')" :active="request()->routeIs('payments.invoice.list')">
+                        {{ __('Transactions') }}
+                    </x-nav-link>
                     @if(Auth::user()->role == "Admin")
                         <x-nav-link :href="route('user.list')" :active="request()->routeIs('user.list')">
                             {{ __('Users') }}
@@ -78,6 +81,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('payments.invoice.list')" :active="request()->routeIs('payments.invoice.list', 'payments.invoice.show')">
+                {{ __('Transactions') }}
             </x-responsive-nav-link>
             @if(Auth::user()->role == "Admin")
                 <x-responsive-nav-link :href="route('user.list')" :active="request()->routeIs('user.list')">
