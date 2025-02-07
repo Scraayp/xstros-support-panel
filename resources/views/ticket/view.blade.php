@@ -79,17 +79,20 @@
             </div>
 
             @if($ticket->status !== "closed")
-            <!-- Reply Form -->
-            <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-200">Post a Reply</h3>
-                <form action="{{ route('ticket.replies.store', $ticket) }}" method="POST" class="mt-4">
-                    @csrf
-                    <div class="mb-4">
-                        <textarea name="message" rows="4" class="w-full p-3 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 rounded-lg" placeholder="Type your reply here..." required></textarea>
-                    </div>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">Post Reply</button>
-                </form>
-            </div>
+                <!-- Reply Form -->
+                <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-200">Post a Reply</h3>
+                    <form action="{{ route('ticket.replies.store', $ticket) }}" method="POST" class="mt-4">
+                        @csrf
+                        <div class="mb-4">
+                            <textarea name="message" rows="4" class="w-full p-3 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 rounded-lg" placeholder="Type your reply here..." required></textarea>
+                        </div>
+                        @error('message')
+                            <p class="mt-1 mb-4 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oh, snapp!</span> {{ $message }}</p>
+                        @enderror
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">Post Reply</button>
+                    </form>
+                </div>
             @endif
         </div>
     </div>

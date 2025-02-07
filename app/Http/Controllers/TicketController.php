@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReplyCreateRequest;
+use App\Http\Requests\TicketCreateRequest;
 use App\Mail\ReplyNotification;
 use App\Models\Reply;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
@@ -30,15 +31,13 @@ class TicketController extends Controller
         ]);
     }
 
-    public function reply(Request $request, Ticket $ticket): RedirectResponse
+    public function reply(ReplyCreateRequest $request, Ticket $ticket): RedirectResponse
     {
         if($ticket->user->id !== Auth::id() && Auth::user()->role !== "Admin" && Auth::user()->role !== "Staff") {
             abort(403);
         }
         // Validate the reply message
-        $request->validate([
-            'message' => 'required|string|max:1000',
-        ]);
+        $request->validated();
 
         $replyRole = $ticket->user->role;
 
@@ -69,15 +68,10 @@ class TicketController extends Controller
         return redirect()->route('ticket.view', $ticket);
     }
 
-    public function create(Request $request): RedirectResponse
+    public function create(TicketCreateRequest $request): RedirectResponse
     {
         // Validate the incoming request data
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'product' => 'required|string|max:255',
-            'server_info' => 'required|string|max:255',
-            'message' => 'required|string|max:1000',
-        ]);
+        $validated = $request->validated();
 
         // Create the ticket
         $ticket = Ticket::create([

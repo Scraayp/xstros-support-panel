@@ -13,6 +13,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/user/list', [\App\Http\Controllers\UserController::class, 'view'])->middleware(['auth', 'verified'])->name('user.list');
+    Route::get('/user/{user}', [\App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
+
+    Route::patch('/user/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+
     Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
 });
 
@@ -25,6 +29,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/ticket/{ticket}/reply', [\App\Http\Controllers\TicketController::class, 'reply'])->name('ticket.replies.store');
 
     Route::delete('/ticket/{ticket}', [\App\Http\Controllers\TicketController::class, 'close'])->name('ticket.close');
+});
+
+Route::get('/429', function () {
+    return view('error.toomanyrequests');
 });
 
 require __DIR__.'/auth.php';

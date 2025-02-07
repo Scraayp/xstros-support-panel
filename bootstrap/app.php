@@ -14,5 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (\Illuminate\Http\Exceptions\ThrottleRequestsException $e, \Illuminate\Http\Request $request) {
+            // Return a custom response for rate limit exceeded
+            return response()->view('error.toomanyrequests', status: 429);
+        });
+//        $exceptions->render(function (InvalidOrderException $e, Request $request) {
+//            return response()->view('errors.invalid-order', status: 500);
+//        });
     })->create();
