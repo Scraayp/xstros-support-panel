@@ -6,6 +6,7 @@ use App\Http\Requests\ReplyCreateRequest;
 use App\Http\Requests\TicketCreateRequest;
 use App\Models\Reply;
 use App\Models\Ticket;
+use App\Notifications\CloseNotifcation;
 use App\Notifications\ReplyNotification;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -104,6 +105,9 @@ class TicketController extends Controller
             'closed_at' => Carbon::now(),
             'closer_id' => Auth::id(),
         ]);
+
+        $ticket->user->notify(new CloseNotifcation($ticket));
+
         return redirect()->route('dashboard');
     }
 
