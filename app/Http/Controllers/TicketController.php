@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreateRequest;
 use App\Http\Requests\TicketCreateRequest;
-use App\Mail\ReplyNotification;
 use App\Models\Reply;
 use App\Models\Ticket;
+use App\Notifications\ReplyNotification;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class TicketController extends Controller
@@ -62,7 +61,9 @@ class TicketController extends Controller
             }
         }
 
-        Mail::to($ticket->user->email)->queue(new ReplyNotification($ticket, $reply));
+//        if($ticket->user->id !== $reply->user->id) {
+            $ticket->user->notify(new ReplyNotification($ticket, $reply));
+//        }
 
         // Redirect back to the ticket view page
         return redirect()->route('ticket.view', $ticket);

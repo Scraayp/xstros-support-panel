@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\MainController::class, 'view'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -31,8 +32,24 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/ticket/{ticket}', [\App\Http\Controllers\TicketController::class, 'close'])->name('ticket.close');
 });
 
+Route::post('/notifications/mark-as-read', function () {
+    Auth::user()->unreadNotifications->markAsRead();
+    return back();
+})->name('notifications.markAsRead');
+
+Route::delete('/notifications/{id}', function ($id) {
+
+    if (!Auth::user()->notifications()->find($id)) {
+        abort(403, 'Unauthorized action.');
+    }
+    Auth::user()->notifications()->find($id)?->delete();
+    return back();
+})->name('notifications.delete');
+
+
 Route::get('/429', function () {
     return view('error.toomanyrequests');
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/stripe.php';

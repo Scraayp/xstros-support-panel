@@ -10,6 +10,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "laravel/cashier": "^15.6",
+        "laravel/cashier-paddle": "^2.5",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "sentry/sentry-laravel": "^4.12"
