@@ -50,32 +50,34 @@ class TicketController extends Controller
         // Validate the reply message
         $request->validated();
 
-        $replyRole = $ticket->user->role;
-
-        if($ticket->user->role === "Admin" || $ticket->user->role === "Staff") {
-            $replyRole = "staff";
-        }
+        $replyRole = Auth::user()->role;
+        
+        $roleForReply = in_array($replyRole, ['Admin', 'Staff']) ? 'staff' : 'user';
 
         // Create the reply
         $reply = Reply::create([
             'ticket_id' => $ticket->id,
-            'user_id' => Auth::id(),  // Store the logged-in user's ID
-            'message' => $request->input('message'),
-            'role' => $replyRole,  // Assuming role is 'user' for the customer replies
+            'user_id'   => Auth::id(),
+            'message'   => $request->input('message'),
+            'role'      => $roleForReply,
         ]);
 
         // If a staff member replies, set the ticket to awaiting client reply
-        if ($ticket->user->role === 'staff' || $ticket->user->role === 'Admin') {
-            if($ticket->status === 'open' || $ticket->status === "awaiting_staff_reply") {
-                $ticket->update([
-                    'status' => 'awaiting_client_reply',
-                ]);
-            }
+        if ($replyRole === "Admin" || $replyRole === "Staff") {
+          $ticket->update([
+            'status' => 'awaiting_client_reply',
+          ]);
+          $ticket->save();
+        }else {
+          $ticket->update([
+            'status' => 'awaiting_staff_reply',
+          ]);
+          $ticket->save();
         }
 
-//        if($ticket->user->id !== $reply->user->id) {
+        if($ticket->user->id !== $reply->user->id) {
             $ticket->user->notify(new ReplyNotification($ticket, $reply));
-//        }
+       }
 
         // Redirect back to the ticket view page
         return redirect()->route('ticket.view', $ticket)->with('status', 'reply-created');
