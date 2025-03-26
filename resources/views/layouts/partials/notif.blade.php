@@ -55,6 +55,11 @@
                                 <strong class="text-base">Ticket Closed</strong>
                                 <span class="block text-sm">Your ticket (#{{ $notification->data['ticket_id'] }}) was closed by the support team.</span>
                             </a>
+                        @elseif($notification->type === 'App\Notifications\AssignNotification')
+                            <a href="{{ route('ticket.view', $notification->data['ticket_id']) }}" class="block text-gray-700 dark:text-gray-300 text-sm">
+                                <strong class="text-base">Ticket Assigned</strong>
+                                <span class="block text-sm">You have been assigned a new ticket!</span>
+                            </a>
                         @endif
                         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                             {{ \Carbon\Carbon::parse($notification->data['timestamp'])->diffForHumans() }}

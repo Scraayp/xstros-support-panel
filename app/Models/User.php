@@ -47,6 +47,12 @@ class User extends Authenticatable
         return $this->hasMany(Reply::class);
     }
 
+    public function Staff($query)
+    {
+        return $query->where('role', 'Staff');
+    }
+
+
     /**
      * Get the attributes that should be cast.
      *

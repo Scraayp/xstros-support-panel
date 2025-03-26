@@ -6,10 +6,15 @@ use App\Http\Requests\ReplyCreateRequest;
 use App\Http\Requests\TicketCreateRequest;
 use App\Models\Reply;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Notifications\AssignNotification;
 use App\Notifications\CloseNotifcation;
+use App\Notifications\OpenNotification;
 use App\Notifications\ReplyNotification;
+use App\Notifications\StaffReplyNotification;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -34,11 +39,13 @@ class TicketController extends Controller
 
     public function view(Ticket $ticket): View
     {
+        $staffMembers = User::whereIn('role', ['Staff', 'Admin'])->get();
         if($ticket->user->id !== Auth::id() && Auth::user()->role !== "Admin" && Auth::user()->role !== "Staff") {
             abort(403);
         }
         return view('ticket.view', [
             'ticket' => $ticket,
+            'staffMembers' => $staffMembers
         ]);
     }
 
@@ -51,7 +58,7 @@ class TicketController extends Controller
         $request->validated();
 
         $replyRole = Auth::user()->role;
-        
+
         $roleForReply = in_array($replyRole, ['Admin', 'Staff']) ? 'staff' : 'user';
 
         // Create the reply
@@ -69,6 +76,11 @@ class TicketController extends Controller
           ]);
           $ticket->save();
         }else {
+            $staffMembers = User::whereIn('role', ['Staff', 'Admin'])->get();
+
+            foreach ($staffMembers as $staff) {
+                $staff->notify(new StaffReplyNotification($ticket, $reply));
+            }
           $ticket->update([
             'status' => 'awaiting_staff_reply',
           ]);
@@ -104,6 +116,12 @@ class TicketController extends Controller
             'role' => 'user',  // Role is 'user' for the ticket creator
         ]);
 
+        $staffMembers = User::whereIn('role', ['Staff', 'Admin'])->get();
+
+        foreach ($staffMembers as $staff) {
+            $staff->notify(new OpenNotification($ticket));
+        }
+
         // Redirect to dashboard or ticket view page
         return redirect()->route('ticket.view', $ticket)->with('status', 'ticket-created');  // Change this route as needed
     }
@@ -122,6 +140,17 @@ class TicketController extends Controller
         $ticket->user->notify(new CloseNotifcation($ticket));
 
         return redirect()->route('ticket.list')->with('status', 'ticket-closed');
+    }
+
+    public function assignStaff(Request $request, Ticket $ticket)
+    {
+        $ticket->update(['assigned_to' => $request->assigned_to]);
+        $ticket->save();
+
+        $staffMember = User::find($request->assigned_to);
+        $staffMember->notify(new AssignNotification($ticket));
+
+        return redirect()->route('ticket.view', $ticket)->with('status', 'ticket-assigned');
     }
 
 }
