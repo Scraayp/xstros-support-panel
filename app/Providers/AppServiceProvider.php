@@ -21,5 +21,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Cashier::calculateTaxes();
+
+        // Event::listen(SocialiteWasCalled::class, function (SocialiteWasCalled $event) {
+        //     $event->extendSocialite('github', \SocialiteProviders\Github\Provider::class);
+        //     $event->extendSocialite('discord', \SocialiteProviders\Discord\Provider::class);
+        //     // $event->extendSocialite('microsoft', \SocialiteProviders\Microsoft\Provider::class);
+        // });
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
+use Laravel\Socialite\Facades\Socialite;
 
 class User extends Authenticatable
 {
@@ -22,9 +23,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
-        'is_staff'
+        'oauth_github_id',
+        'oauth_discord_id',
     ];
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -65,4 +67,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isConnectedTo($provider)
+    {
+        return !is_null($this->{"oauth_{$provider}_id"});
+    }
+
 }

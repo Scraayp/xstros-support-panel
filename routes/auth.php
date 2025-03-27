@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginUserViaSocialiteController;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -21,6 +22,9 @@ Route::middleware(['guest'])->group(function () {
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware(['throttle:5,1']);
+
+    Route::get('auth/{provider}/redirect', [LoginUserViaSocialiteController::class, 'create'])->where('provider', 'discord|github');
+    Route::get('auth/{provider}/callback', [LoginUserViaSocialiteController::class, 'store'])->where('provider', 'discord|github');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
