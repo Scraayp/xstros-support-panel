@@ -41,7 +41,7 @@ class TicketController extends Controller
         {
             $tickets = Ticket::where('user_id', auth()->id())->get();
             $ticketStats = [
-                'open' => Ticket::where('status', ['open', 'awaiting_client_reply', 'awaiting_staff_reply'])->where('user_id', Auth::id())->count(),
+                'open' => Ticket::whereIn('status', ['open', 'awaiting_client_reply', 'awaiting_staff_reply'])->where('user_id', Auth::id())->count(),
                 'closed' => Ticket::where('status', 'closed')->where('user_id', Auth::id())->count(),
                 'in_progress' => Ticket::where('status', 'in_progress')->where('user_id', Auth::id())->count(),
                 'awaiting' => Ticket::where('status', 'awaiting_client_reply')->where('user_id', Auth::id())->count(),

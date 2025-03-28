@@ -327,7 +327,8 @@
                             @else
                                 <div class="mt-8 bg-gray-50 dark:bg-gray-900/40 rounded-lg p-4 text-center">
                                     <p class="text-gray-600 dark:text-gray-400">This ticket is closed. No further replies can be added.</p>
-                                    <form action="{{ route('ticket.reopen', $ticket) }}" method="POST" class="mt-2">
+                                    {{-- TODO: Fix reopen --}}
+                                    <form action="" method="POST" class="mt-2">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -379,10 +380,8 @@
                             <!-- Assigned To -->
                             <div>
                                 <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Assigned to</h4>
-                                
                                 @if(auth()->user()->role === 'Admin')
                                     <form action="{{ route('ticket.assign', $ticket) }}" method="POST" class="space-y-3">
-                                        @csrf  $ticket) }}" method="POST" class="space-y-3">
                                         @csrf
                                         <div class="flex items-center mb-2">
                                             @if($ticket->assignedTo)
@@ -516,7 +515,8 @@
                                     </button>
                                 </form>
                             @else
-                                <form action="{{ route('ticket.reopen', $ticket) }}" method="POST" class="w-full">
+                            {{-- TODO: Fix reopen --}}
+                                <form action=" method="POST" class="w-full">
                                     @csrf
                                     @method('PUT')
                                     <button type="submit" 
