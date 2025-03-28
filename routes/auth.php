@@ -23,8 +23,7 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware(['throttle:5,1']);
 
-    Route::get('auth/{provider}/redirect', [LoginUserViaSocialiteController::class, 'create'])->where('provider', 'discord|github');
-    Route::get('auth/{provider}/callback', [LoginUserViaSocialiteController::class, 'store'])->where('provider', 'discord|github');
+   
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
@@ -61,3 +60,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout')->middleware(['throttle:5,1']);
 });
+
+Route::get('auth/{provider}/redirect', [LoginUserViaSocialiteController::class, 'create'])->where('provider', 'discord|github');
+Route::get('auth/{provider}/callback', [LoginUserViaSocialiteController::class, 'store'])->where('provider', 'discord|github');

@@ -69,7 +69,10 @@
                         
                         <div class="mt-4">
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                <div class="bg-green-500 h-2.5 rounded-full" style="width: {{ ($ticketStats['open']) / ($ticketStats['total'] ?? 24) * 100 }}%"></div>
+                                <div class="bg-green-500 h-2.5 rounded-full" 
+                                style="width: {{ ($ticketStats['total'] ?? 0) > 0 ? ($ticketStats['open'] / max($ticketStats['total'], 1)) * 100 : 0 }}%">
+                           </div>
+                           
                             </div>
                         </div>
                     </div>
@@ -122,7 +125,10 @@
                         
                         <div class="mt-4">
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                <div class="bg-red-500 h-2.5 rounded-full" style="width: {{ ($ticketStats['closed']) / ($ticketStats['total']) * 100 }}%"></div>
+                                <div class="bg-red-500 h-2.5 rounded-full" 
+     style="width: {{ ($ticketStats['total'] ?? 0) > 0 ? ($ticketStats['closed'] / max($ticketStats['total'], 1)) * 100 : 0 }}%">
+</div>
+
                             </div>
                         </div>
                     </div>
