@@ -311,7 +311,7 @@
                                                         @if($ticket->status !== 'closed')
                                                             <form action="{{ route('ticket.close', $ticket->id) }}" method="POST" class="inline">
                                                                 @csrf
-                                                                @method('PUT')
+                                                                @method('DELETE')
                                                                 <button type="submit" 
                                                                         class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                                                                     <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -435,7 +435,7 @@
                                         @if($ticket->status !== 'closed' && (auth()->user()->role === 'Admin' || auth()->user()->id === $ticket->user->id))
                                             <form action="{{ route('ticket.close', $ticket) }}" method="POST" class="flex-1">
                                                 @csrf
-                                                @method('PUT')
+                                                @method('DELETE')
                                                 <button type="submit"
                                                         class="w-full inline-flex justify-center items-center px-3 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                                                     <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -568,7 +568,7 @@
                                                     @if($ticket->status !== 'closed')
                                                         <form action="{{ route('ticket.close', $ticket) }}" method="POST">
                                                             @csrf
-                                                            @method('PUT')
+                                                            @method('DELETE')
                                                             <button type="submit"
                                                                     class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                                                                 <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -673,7 +673,7 @@
                                             @if($ticket->status !== 'closed')
                                                 <form action="{{ route('ticket.close', $ticket) }}" method="POST" class="flex-1">
                                                     @csrf
-                                                    @method('PUT')
+                                                    @method('DELETE')
                                                     <button type="submit"
                                                             class="w-full inline-flex justify-center items-center px-3 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                                                         <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -820,7 +820,7 @@
                                                 @if($ticket->status !== 'closed')
                                                     <form action="{{ route('ticket.close', $ticket) }}" method="POST">
                                                         @csrf
-                                                        @method('PUT')
+                                                        @method('DELETE')
                                                         <button type="submit"
                                                                 class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                                                             <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -929,7 +929,7 @@
                                         @if($ticket->status !== 'closed')
                                             <form action="{{ route('ticket.close', $ticket) }}" method="POST" class="flex-1">
                                                 @csrf
-                                                @method('PUT')
+                                                @method('DELETE')
                                                 <button type="submit"
                                                         class="w-full inline-flex justify-center items-center px-3 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                                                     <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
