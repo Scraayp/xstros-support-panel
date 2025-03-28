@@ -31,8 +31,6 @@ Route::get('/', function() {
         $tickets = $tickets = Ticket::latest()->take(10)->get()->where('user_id', Auth::id());
     }
 
-    
-
     return view('dashboard', compact('recentTickets', 'ticketStats', 'recentActivity', 'tickets'));
 })->name('dashboard')->middleware(['auth', 'verified']);
 
