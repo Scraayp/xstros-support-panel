@@ -119,7 +119,8 @@ class TicketController extends Controller
             'user_id' => Auth::id(),  // Associate the ticket with the authenticated user
             'title' => $validated['title'],
             'description' => $validated['product'] . ' - ' . $validated['server_info'],  // Concatenate product and server info
-            'status' => 'open',  // Default status for new tickets
+            'status' => 'open',  // Default status for new tickets,
+            'priority' => 'low',
         ]);
 
         // Create the first reply (message from the user)
