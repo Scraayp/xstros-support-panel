@@ -52,6 +52,8 @@ class CloseNotifcation extends Notification implements ShouldQueue
         return [
             'ticket_id' => $this->ticket->id,
             'timestamp' => now()->toDateTimeString(),
+            'title' => 'Your ticket was closed',
+            'message' => 'Your ticket was closed by the support team.'
         ];
     }
 }

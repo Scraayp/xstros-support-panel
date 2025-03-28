@@ -52,9 +52,11 @@ class AssignNotification extends Notification implements ShouldQueue
     {
         return [
             'ticket_id' => $this->ticket->id,
+            'title' => 'You have been assigned a ticket',
             'message' => 'You have been assigned to a new support ticket.',
             'timestamp' => now()->toDateTimeString(),
             'url' => url(route('ticket.view', $this->ticket->id)),
+
         ];
     }
 }

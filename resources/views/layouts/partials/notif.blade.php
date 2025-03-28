@@ -38,7 +38,7 @@
                 <div class="relative flex items-center px-4 py-3 space-x-3 hover:bg-gray-100 dark:hover:bg-gray-700">
                     <!-- User Avatar Placeholder -->
                     <div class="shrink-0">
-                        <img class="rounded-full w-10 h-10" src="/pfp-placeholder.png" alt="User Avatar">
+                        <img class="rounded-full w-10 h-10" src="{{ Auth::user()->avatar ?? '/pfp-placeholder.png' }}" alt="User Avatar">
                     </div>
 
                     <!-- Notification Content -->

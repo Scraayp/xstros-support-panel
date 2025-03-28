@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'oauth_github_id',
         'oauth_discord_id',
+        'avatar'
     ];
     
 

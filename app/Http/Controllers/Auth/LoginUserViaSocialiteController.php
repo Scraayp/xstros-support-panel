@@ -18,7 +18,9 @@ class LoginUserViaSocialiteController extends Controller
 {
     $socialiteUser = Socialite::driver($provider)->user();
 
-    $user = User::where('email', $socialiteUser->getEmail())->first();
+    $user = User::where('email', $socialiteUser->getEmail())
+                ->orWhere("oauth_{$provider}_id", $socialiteUser->getId())
+                ->first();
 
     if (!$user) {
         $user = User::create([
@@ -26,6 +28,7 @@ class LoginUserViaSocialiteController extends Controller
             'email' => $socialiteUser->getEmail(),
             'password' => bcrypt($socialiteUser->getName() . $socialiteUser->getId()),
             "oauth_{$provider}_id" => $socialiteUser->getId(),
+            'avatar' => $socialiteUser->getAvatar(),
         ]);
     }
 

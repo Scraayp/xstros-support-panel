@@ -60,6 +60,8 @@ class ReplyNotification extends Notification implements ShouldQueue
             'reply_creator' => $this->reply->user->name,
             'reply_creator_role' => $this->reply->user->role,
             'timestamp' => now()->toDateTimeString(),
+            'title' => 'New reply to your ticket',
+            'message' => 'There was a new reply to your ticket.'
         ];
     }
 }

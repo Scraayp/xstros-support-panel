@@ -29,11 +29,25 @@ class TicketController extends Controller
     public function list(): View
     {
         if(\Auth::user()->role === 'Admin' || \Auth::user()->role === 'Staff'){
-            return view('ticket.list', ['tickets' => Ticket::all()]);
+            $ticketStats = [
+                'open' => Ticket::whereIn('status', ['open', 'awaiting_client_reply', 'awaiting_staff_reply'])->count(),
+                'closed' => Ticket::where('status', 'closed')->count(),
+                'in_progress' => Ticket::where('status', 'in_progress')->count(),
+                'awaiting' => Ticket::where('status', 'awaiting_staff_reply')->count(),
+                'total' => Ticket::count(),
+            ];
+            return view('ticket.list', ['tickets' => Ticket::all(), 'ticketStats' => $ticketStats]);
         }else
         {
             $tickets = Ticket::where('user_id', auth()->id())->get();
-            return view('ticket.list', ['tickets' => $tickets]);
+            $ticketStats = [
+                'open' => Ticket::where('status', ['open', 'awaiting_client_reply', 'awaiting_staff_reply'])->where('user_id', Auth::id())->count(),
+                'closed' => Ticket::where('status', 'closed')->where('user_id', Auth::id())->count(),
+                'in_progress' => Ticket::where('status', 'in_progress')->where('user_id', Auth::id())->count(),
+                'awaiting' => Ticket::where('status', 'awaiting_client_reply')->where('user_id', Auth::id())->count(),
+                'total' => Ticket::where('user_id', Auth::id())->count(),
+            ];
+            return view('ticket.list', ['tickets' => $tickets, 'ticketStats' => $ticketStats]);
         }
     }
 

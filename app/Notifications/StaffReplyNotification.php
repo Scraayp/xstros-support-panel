@@ -60,6 +60,8 @@ class StaffReplyNotification extends Notification implements ShouldQueue
             'customer_name' => $this->reply->user->name,
             'customer_message' => $this->reply->message,
             'timestamp' => now()->toDateTimeString(),
+            'title' => 'Customer replied to ticket',
+            'message' => 'A customer has replied to an open ticket.'
         ];
     }
 }

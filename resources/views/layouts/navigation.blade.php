@@ -100,7 +100,7 @@
                                 <div class="relative flex items-center px-4 py-3 space-x-3 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0">
                                     <!-- User Avatar Placeholder -->
                                     <div class="shrink-0">
-                                        <img class="rounded-full w-10 h-10" src="/pfp-placeholder.png" alt="User Avatar">
+                                        <img class="rounded-full w-10 h-10" src="{{ Auth::user()->avatar ?? '/pfp-placeholder.png' }}" alt="User Avatar">
                                     </div>
 
                                     <!-- Notification Content -->
@@ -157,7 +157,7 @@
                         <button class="flex items-center space-x-3 px-3 py-2 border border-transparent text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition ease-in-out duration-150">
                             <!-- Profile Image -->
                             <div class="relative">
-                                <img src="{{ Auth::user()->profile_image ?? '/pfp-placeholder.png' }}" alt="Profile Image"
+                                <img src="{{ Auth::user()->avatar ?? '/pfp-placeholder.png' }}" alt="Profile Image"
                                      class="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 shadow-sm object-cover">
 
                                 <!-- Status Indicator -->
@@ -265,8 +265,13 @@
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-700">
             <div class="flex items-center px-4 py-2">
                 <div class="flex-shrink-0 mr-3">
-                    <img src="{{ Auth::user()->profile_image ?? '/pfp-placeholder.png' }}" alt="Profile Image"
+                    <img src="{{ Auth::user()->avatar ?? '/pfp-placeholder.png' }}" alt="Profile Image"
                          class="h-10 w-10 rounded-full border border-gray-300 dark:border-gray-600 shadow-sm object-cover">
+
+                         {{-- filepath: /home/michal/Xstros/xstros-support-panel/resources/views/layouts/navigation.blade.php --}}
+                    <div class="h-10 w-10 rounded-full border border-gray-300 dark:border-gray-600 shadow-sm object-cover flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                        {!! Auth::user()->avatar ? '<img src="'.Auth::user()->avatar.'" alt="'.Auth::user()->name.'" class="h-10 w-10 rounded-full border border-gray-300 dark:border-gray-600 shadow-sm object-cover">' : substr(Auth::user()->name, 0, 1) !!}
+                    </div>
                 </div>
                 <div>
                     <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
@@ -321,7 +326,7 @@
                                 <div class="relative flex items-center px-4 py-3 space-x-3 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0">
                                     <!-- User Avatar Placeholder -->
                                     <div class="shrink-0">
-                                        <img class="rounded-full w-8 h-8" src="/pfp-placeholder.png" alt="User Avatar">
+                                        <img class="rounded-full w-8 h-8" src="{{ Auth::user()->avatar ?? '/pfp-placeholder.png' }}" alt="User Avatar">
                                     </div>
 
                                     <!-- Notification Content -->

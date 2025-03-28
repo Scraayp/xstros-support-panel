@@ -3,9 +3,37 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Ticket;
+use App\Models\User;
 
 Route::get('/', function() {
-    return redirect()->route('ticket.list');
+    if(Auth::user()->role === 'Staff' || Auth::user()->role === 'Admin') {
+        $recentTickets = Ticket::latest()->limit(5)->get();
+        $ticketStats = [
+            'open' => Ticket::whereIn('status', ['open', 'awaiting_client_reply', 'awaiting_staff_reply'])->count(),
+            'closed' => Ticket::where('status', 'closed')->count(),
+            'in_progress' => Ticket::where('status', 'in_progress')->count(),
+            'awaiting' => Ticket::where('status', 'awaiting_client_reply')->count(),
+            'total' => Ticket::count(),
+        ];
+        $recentActivity = auth()->user()->notifications()->latest()->limit(5)->get();
+        $tickets = Ticket::latest()->take(10)->get();
+    }else {
+        $recentTickets = Ticket::latest()->limit(5)->where('user_id', Auth::id())->get();
+        $ticketStats = [
+            'open' => Ticket::where('status', ['open', 'awaiting_client_reply', 'awaiting_staff_reply'])->where('user_id', Auth::id())->count(),
+            'closed' => Ticket::where('status', 'closed')->where('user_id', Auth::id())->count(),
+            'in_progress' => Ticket::where('status', 'in_progress')->where('user_id', Auth::id())->count(),
+            'awaiting' => Ticket::where('status', 'awaiting_staff_reply')->where('user_id', Auth::id())->count(),
+            'total' => Ticket::where('user_id', Auth::id())->count(),
+        ];
+        $recentActivity = auth()->user()->notifications()->latest()->limit(5)->get();
+        $tickets = $tickets = Ticket::latest()->take(10)->get()->where('user_id', Auth::id());
+    }
+
+    
+
+    return view('dashboard', compact('recentTickets', 'ticketStats', 'recentActivity', 'tickets'));
 })->name('dashboard')->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
