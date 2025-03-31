@@ -31,7 +31,7 @@
     </x-slot>
 
     <!-- Toast Notifications -->
-    @if(session('status') === 'ticket-created' || session('status') === 'reply-created' || session('status') === 'ticket-assigned')
+    @if(session('status') === 'ticket-created' || session('status') === 'reply-created' || session('status') === 'ticket-assigned' || session('status') === 'ticket-repoened')
         <div id="toast-{{ session('status') }}"
              class="fixed bottom-6 right-6 flex items-center w-full max-w-sm p-4 text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-lg backdrop-blur-sm bg-opacity-90 z-50 transition-all duration-300 transform translate-y-0 opacity-100"
              role="alert">
@@ -47,6 +47,8 @@
                     Your reply has been sent successfully.
                 @elseif(session('status') === 'ticket-assigned')
                     Ticket has been assigned successfully!
+                @elseif(session('status') === 'ticket-repoened')
+                    Ticket has been reopened successfully!
                 @endif
             </div>
             <button onclick="document.getElementById('toast-{{ session('status') }}').style.display = 'none';"
@@ -328,7 +330,7 @@
                                 <div class="mt-8 bg-gray-50 dark:bg-gray-900/40 rounded-lg p-4 text-center">
                                     <p class="text-gray-600 dark:text-gray-400">This ticket is closed. No further replies can be added.</p>
                                     {{-- TODO: Fix reopen --}}
-                                    <form action="" method="POST" class="mt-2">
+                                    <form action="{{ route('ticket.reopen', $ticket) }}" method="POST" class="mt-2">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -516,7 +518,7 @@
                                 </form>
                             @else
                             {{-- TODO: Fix reopen --}}
-                                <form action=" method="POST" class="w-full">
+                                <form action="{{ route('ticket.reopen', $ticket) }}" method="POST" class="w-full">
                                     @csrf
                                     @method('PUT')
                                     <button type="submit" 

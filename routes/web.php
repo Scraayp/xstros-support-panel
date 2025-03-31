@@ -64,6 +64,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('tickets/{ticket}/assign', [\App\Http\Controllers\TicketController::class, 'assignStaff'])->name('ticket.assign');
 
     Route::delete('/ticket/{ticket}', [\App\Http\Controllers\TicketController::class, 'close'])->middleware(['throttle:5,3'])->name('ticket.close');
+
+    Route::put('/ticket/{ticket}/reopen', [\App\Http\Controllers\TicketController::class, 'reopen'])->middleware(['throttle:5,3'])->name('ticket.reopen');
 });
 
 Route::post('/notifications/mark-as-read', function () {

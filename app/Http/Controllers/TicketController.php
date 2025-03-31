@@ -168,4 +168,19 @@ class TicketController extends Controller
         return redirect()->route('ticket.view', $ticket)->with('status', 'ticket-assigned');
     }
 
+    public function reopen(Request $request, Ticket $ticket)
+    {
+        if($ticket->user->id !== Auth::id() && Auth::user()->role !== "Admin" && Auth::user()->role !== "Staff") {
+            abort(403);
+        }
+        $ticket->update([
+            'status' => 'open',
+            'closed_at' => null,
+            'closer_id' => null,
+        ]);
+
+        $ticket->user->notify(new OpenNotification($ticket));
+
+        return redirect()->route('ticket.view', $ticket)->with('status', 'ticket-reopened');
+    }
 }
