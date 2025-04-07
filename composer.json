@@ -16,6 +16,7 @@
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.9",
         "martinbean/socialite-discord-provider": "^1.2",
+        "pragmarx/google2fa": "^8.0",
         "sentry/sentry-laravel": "^4.12",
         "socialiteproviders/discord": "^4.2",
         "socialiteproviders/github": "^4.1",

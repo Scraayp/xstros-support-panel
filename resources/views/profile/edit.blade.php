@@ -76,6 +76,12 @@
 
             <div class="bg-white p-4 shadow-sm sm:rounded-lg sm:p-8 dark:bg-gray-800">
                 <div class="max-w-xl">
+                    @include('profile.partials.2fa')
+                </div>
+            </div>
+
+            <div class="bg-white p-4 shadow-sm sm:rounded-lg sm:p-8 dark:bg-gray-800">
+                <div class="max-w-xl">
                     @include('profile.partials.oath-form')
                 </div>
             </div>

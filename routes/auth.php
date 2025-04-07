@@ -63,3 +63,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('auth/{provider}/redirect', [LoginUserViaSocialiteController::class, 'create'])->where('provider', 'discord|github');
 Route::get('auth/{provider}/callback', [LoginUserViaSocialiteController::class, 'store'])->where('provider', 'discord|github');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/2fa', [App\Http\Controllers\TwoFactorAuthController::class, 'index'])->name('profile.2fa');
+    Route::post('/profile/2fa/verify', [App\Http\Controllers\TwoFactorAuthController::class, 'verify'])->name('verify-2fa');
+    Route::delete('/profile/2fa', [App\Http\Controllers\TwoFactorAuthController::class, 'disable'])->name('disable-2fa');
+    Route::post('/profile/2fa/recovery-codes', [App\Http\Controllers\TwoFactorAuthController::class, 'regenerateRecoveryCodes'])->name('regenerate-recovery-codes');
+});
+

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Laravel\Socialite\Facades\Socialite;
+use PragmaRX\Google2FA\Google2FA;
 
 class User extends Authenticatable
 {
@@ -74,4 +75,26 @@ class User extends Authenticatable
         return !is_null($this->{"oauth_{$provider}_id"});
     }
 
+
+    public function enable2fa(Request $request)
+    {
+        $google2fa = new Google2FA();
+        $user = Auth::user();
+
+        // Generate a new secret key for the user
+        $secret = $google2fa->generateSecretKey();
+
+        // Store the secret key in the database
+        $user->google2fa_secret = $secret;
+        $user->save();
+
+        // Generate a QR code that the user can scan with their Google Authenticator app
+        $qrCodeUrl = $google2fa->getQRCodeUrl(
+            'MyApp',  // Your app name
+            $user->email, // The user's email (or any other unique identifier)
+            $secret
+        );
+
+        return view('auth.2fa', compact('qrCodeUrl'));
+    }
 }
