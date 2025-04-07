@@ -154,6 +154,12 @@ class TicketController extends Controller
 
         $ticket->user->notify(new CloseNotifcation($ticket));
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($ticket)
+            ->log('closed');
+
+
         return redirect()->route('ticket.list')->with('status', 'ticket-closed');
     }
 

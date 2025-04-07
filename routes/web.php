@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LogsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\Ticket;
@@ -38,12 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/logs', [LogsController::class, 'view'])->name('logs');
 });
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/user/new', [\App\Http\Controllers\UserController::class, 'new'])->name('user.new');
     Route::post('/user/create', [\App\Http\Controllers\UserController::class, 'create'])->middleware(['throttle:2,3'])->name('user.create');
-    Route::get('/user/list', [\App\Http\Controllers\UserController::class, 'view'])->middleware(['auth', 'verified'])->name('user.list');
+    Route::get('/user/list', [\App\Http\Controllers\UserController::class, 'view'])->name('user.list');
     Route::get('/user/{user}', [\App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 
     Route::patch('/user/{user}', [\App\Http\Controllers\UserController::class, 'update'])->middleware(['throttle:2,5'])->name('user.update');
@@ -81,7 +84,6 @@ Route::delete('/notifications/{id}', function ($id) {
     Auth::user()->notifications()->find($id)?->delete();
     return back();
 })->name('notifications.delete');
-
 
 Route::get('/429', function () {
     return view('error.toomanyrequests');

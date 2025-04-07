@@ -65,6 +65,20 @@
                                 <span>{{ __('Users') }}</span>
                             </div>
                         </x-nav-link>
+                        <x-nav-link :href="route('logs')" :active="request()->routeIs('logs')" 
+                            class="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 
+                            {{ request()->routeIs('logs') 
+                                ? 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-foreground' 
+                                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white' }}">
+                
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2M12 18a6 6 0 100-12 6 6 0 000 12z"></path>
+                        </svg>
+                        <span>{{ __('Logs') }}</span>
+                    </div>
+                </x-nav-link>
+                
                     @endif
                 </div>
             </div>
